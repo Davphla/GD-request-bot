@@ -7,7 +7,12 @@ from constant import g_channels, g_roles
 
 class SendButton(ui.Button):
     def __init__(self, level, label, channel_type: constant.ChannelType, feature=False):
-        super().__init__(style=ButtonStyle.success, label=label, emoji='👍')
+        if feature:
+            emoji = '👍'
+        else:
+            emoji = '👍'
+
+        super().__init__(style=ButtonStyle.success, label=label, emoji=emoji)
         self.level = level
         self.feature = feature
         self.channel_type = channel_type
@@ -29,7 +34,7 @@ class SendButton(ui.Button):
 
 class RejectButton(ui.Button):
     def __init__(self, level, label):
-        super().__init__(style=ButtonStyle.danger, label=label)
+        super().__init__(style=ButtonStyle.danger, label=label, emoji='👍')
         self.level = level
 
     async def callback(self, inter: discord.Interaction):
