@@ -33,7 +33,7 @@ async def define_channel(inter, channel: discord.TextChannel, channel_type: cons
         announcement_channel = channel.id
     else :
         await inter.response.send_message("Invalid channel type")
-    await inter.response.send_message("Channel defined " + str(channel_type))
+    await inter.response.send_message("Channel defined " + str(channel_type) + " in channel #" + str(channel.name))
     
 
 class CoolButton(ui.Button):
@@ -48,7 +48,7 @@ async def define_role(inter, role: discord.Role, role_type: constant.RoleType):
         moderator_role = role.id
     else :
         await inter.response.send_message("Invalid channel type")
-    await inter.response.send_message("Channel defined" + str(role_type))
+    await inter.response.send_message("Channel defined" + str(role_type) + " in channel #" + str(role.name))
     
 
 
