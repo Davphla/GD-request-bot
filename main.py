@@ -21,6 +21,7 @@ has_requested = []
 
 
 @client.tree.command(name = "define_channel", description = "Define channel", guild=discord.Object(id=SERVER_ID))
+@commands.has_permissions(administrator=True)
 async def define_channel(inter, channel: discord.TextChannel, channel_type: constant.ChannelType):
     if g_channels.set_channel(channel_type, channel):
         return await inter.response.send_message("Invalid channel type")
@@ -29,6 +30,7 @@ async def define_channel(inter, channel: discord.TextChannel, channel_type: cons
 
 
 @client.tree.command(name = "define_role", description = "Define role", guild=discord.Object(id=SERVER_ID))
+@commands.has_permissions(administrator=True)
 async def define_role(inter, role: discord.Role, role_type: constant.RoleType):
     if g_roles.set_role(role_type, role):
         return await inter.response.send_message("Invalid channel type")
