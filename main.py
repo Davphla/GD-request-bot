@@ -7,6 +7,8 @@ from button import request_message
 import constant
 from constant import g_channels, g_roles
 
+import save_state
+
 load_dotenv()  
 SERVER_ID = os.getenv("SERVER_ID")
 
@@ -18,7 +20,7 @@ DAILY_LIMIT = 30
 levels_to_review = []
 has_requested = []
 
-
+save_state = save_state.SaveState()
 
 @client.tree.command(name = "define_channel", description = "Define channel", guild=discord.Object(id=SERVER_ID))
 @commands.has_permissions(administrator=True)

@@ -1,8 +1,6 @@
 import dataclasses
 from enum import Enum
 
-import json
-import atexit
 
 class RoleType(Enum):
     HELPER = 0
@@ -17,6 +15,7 @@ class ChannelType(Enum):
     HELPER = 0
     MODERATOR = 1
     ANNOUNCEMENT = 2
+    LOG = 3
 
 class Level:
     def __init__(self, id, description, video, user, status: LevelStatus = LevelStatus.PENDING):
@@ -26,7 +25,6 @@ class Level:
         self.user = user
         self.status = status
 
-@dataclasses.dataclass
 class LevelRequest:
     def __init__(self, id, description, video, user):
         self.id = id
@@ -36,12 +34,17 @@ class LevelRequest:
 
 @dataclasses.dataclass
 class Channels:
-    def __init__(self, helper_channel, moderator_channel, announcement_channel, log_channel):
-        self.helper_channel = helper_channel
-        self.moderator_channel = moderator_channel
-        self.announcement_channel = announcement_channel
-        self.log_channel = log_channel
+    data = {
+        'helper_channel': None,
+        'moderator_channel': None,
+        'announcement_channel': None,
+        'log_channel': None,
+    }
 
+    def __init__(self, dict = None):
+        if dict:
+            self.data = dict
+    
     def get_channel(self, channel_type: ChannelType):
         channel_map = {
             ChannelType.HELPER: self.helper_channel,
@@ -59,11 +62,17 @@ class Channels:
             ChannelType.LOG: 'log_channel',
         }
         setattr(self, channel_map.get(channel_type), channel)
-        
+
+@dataclasses.dataclass      
 class Roles:
-    def __init__(self, helper_role, moderator_role):
-        self.helper_role = helper_role
-        self.moderator_role = moderator_role
+    data = {
+        'helper_role': None,
+        'moderator_role': None,
+    }
+
+    def __init__(self, dict = None):
+        if dict:
+            self.data = dict
 
     def get_role(self, role_type: RoleType):
         role_map = {
@@ -80,28 +89,5 @@ class Roles:
         setattr(self, role_map.get(role_type), role)
 
 
-def save_constants():
-    with open('cache/constants.json', 'w') as f:
-        json.dump({
-            'g_channels': g_channels,
-            'g_roles': g_roles,
-        }, f)
-
-def load_constants():
-    global g_channels
-    global g_roles
-
-    try:
-        with open('cache/constants.json', 'r') as f:
-            data = json.load(f)
-            g_channels = data['g_channels']
-            g_roles = data['g_roles']
-    except:
-        pass
-    
-g_channels = Channels(None, None, None, None)
-g_roles = Roles(None, None)
-
-load_constants()
-
-atexit.register(save_constants)
+g_channels = Channels()
+g_roles = Roles()
