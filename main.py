@@ -1,3 +1,4 @@
+import asyncio
 import os
 
 import discord
@@ -19,8 +20,6 @@ DAILY_LIMIT = 30
 
 levels_to_review = []
 has_requested = []
-
-save_state = save_state.SaveState()
 
 @client.tree.command(name = "define_channel", description = "Define channel", guild=discord.Object(id=SERVER_ID))
 @commands.has_permissions(administrator=True)
@@ -76,6 +75,9 @@ async def on_ready():
     await client.tree.sync(guild=discord.Object(id=SERVER_ID))
     print(f'We have logged in as {client.user}')
 
+
+save_state = save_state.SaveState(discord.Object(id=SERVER_ID))
+save_state.load_constants()
 
 discord_token = os.getenv('DISCORD_TOKEN')
 

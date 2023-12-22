@@ -1,5 +1,6 @@
 import dataclasses
 from enum import Enum
+import discord
 
 
 class RoleType(Enum):
@@ -44,6 +45,9 @@ class Channels:
     def __init__(self, dict = None):
         if dict:
             self.data = dict
+
+
+            
     
     def get_channel(self, channel_type: ChannelType):
         channel_map = {
@@ -61,7 +65,7 @@ class Channels:
             ChannelType.ANNOUNCEMENT: 'announcement_channel',
             ChannelType.LOG: 'log_channel',
         }
-        setattr(self, channel_map.get(channel_type), channel)
+        self.data[channel_map.get(channel_type)] = channel
 
 @dataclasses.dataclass      
 class Roles:
@@ -86,7 +90,8 @@ class Roles:
             RoleType.HELPER: 'helper_role',
             RoleType.MODERATOR: 'moderator_role',
         }
-        setattr(self, role_map.get(role_type), role)
+        self.data[role_map.get(role_type)] = role
+        
 
 
 g_channels = Channels()
