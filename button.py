@@ -1,16 +1,16 @@
 from discord import Embed, ui, ButtonStyle
-from discord.ext import commands
 import discord
 
 import constant
 from constant import g_channels, g_roles
 
+
 class SendButton(ui.Button):
     def __init__(self, level, label, channel_type: constant.ChannelType, feature=False):
         if feature:
-            emoji = '👍'
+            emoji = '<:check:1145070237776105503>'
         else:
-            emoji = '👍'
+            emoji = '<:cross:1145070198269956236>'
 
         super().__init__(style=ButtonStyle.success, label=label, emoji=emoji)
         self.level = level
@@ -59,11 +59,11 @@ async def request_message(level: constant.Level, channel_type: constant.ChannelT
     if channel is None:
         return True
     
+    # Change color of the embed if its an announcement
     if channel_type == constant.ChannelType.ANNOUNCEMENT:
         embed = embed_level(level, 0x00ff00)
     else:
         embed = embed_level(level)
-    if mention is not None:
         embed.add_field(name="Previous sent by", value=mention, inline=False)
     if feature is not None:
         embed.add_field(name="Sent for ", value=("feature" if feature else "rate"), inline=False)
